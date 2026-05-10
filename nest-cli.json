@@ -19,6 +19,24 @@
         "tsConfigPath": "apps/backend/tsconfig.app.json"
       }
     },
+    "contracts": {
+      "type": "library",
+      "root": "libs/contracts",
+      "entryFile": "index",
+      "sourceRoot": "libs/contracts/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/contracts/tsconfig.lib.json"
+      }
+    },
+    "dumbenv": {
+      "type": "application",
+      "root": "apps/dumbenv",
+      "entryFile": "main",
+      "sourceRoot": "apps/dumbenv/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/dumbenv/tsconfig.app.json"
+      }
+    },
     "parser": {
       "type": "application",
       "root": "apps/parser",

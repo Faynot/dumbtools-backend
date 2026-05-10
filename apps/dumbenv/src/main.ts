@@ -1,13 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { ParserModule } from './parser.module';
+import { DumbenvModule } from './dumbenv.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    ParserModule,
+    DumbenvModule,
     {
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 3001 },
+      options: { host: 'localhost', port: 3002 },
     },
   );
   await app.listen();

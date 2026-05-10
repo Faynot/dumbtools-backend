@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -7,6 +7,16 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return 'Gateway is running';
+  }
+
+  @Post('parse')
+  async parse(@Body() body: any) {
+    return this.appService.parse(body);
+  }
+
+  @Post('dumbenv')
+  async dumbenv(@Body() body: any) {
+    return this.appService.dumbenv(body);
   }
 }
