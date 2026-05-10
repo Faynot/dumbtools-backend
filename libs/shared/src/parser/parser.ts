@@ -1,28 +1,44 @@
 type ConfigType = 'niri' | 'hyprland';
 
-class ParseObject {
-  public keys: string[];
-  public title: string;
-  public action: string;
-  public entity?: string;
-  public type: ConfigType;
+type ParseInput = {
+  keys: string[];
+  action: string;
+  title?: string;
+  entity?: string;
+};
 
+type Formatter = (input: ParseInput) => string;
+
+const formatters: Record<ConfigType, Formatter> = {
+  niri: ({ keys, action, title, entity }) => {
+    const keysList = keys.join('+');
+    const entityPart = entity ? `: ${entity}` : '';
+    const titlePart = title ? ` hotkey-overlay-title="${title}"` : '';
+
+    return `${keysList}${titlePart} { ${action}${entityPart} }`;
+  },
+
+  hyprland: ({ keys, action, entity }) => {
+    const keysList = keys.join(', ');
+    const actionParts = [action, entity].filter(Boolean).join(', ');
+
+    return `bind = ${keysList}, ${actionParts}`;
+  },
+};
+
+export class ParseObject {
   constructor(
-    keys: string[],
-    title: string,
-    action: string,
-    type: ConfigType,
-    entity?: string,
-  ) {
-    this.keys = keys;
-    this.title = title;
-    this.action = action;
-    this.entity = entity;
-    this.type = type;
-  }
+    public type: ConfigType,
+    public input: ParseInput,
+  ) {}
 
-  parse() {
-    const keys_list: string = this.keys.join('+');
-    return `${keys_list} hotkey-overlay-title="${this.title}" { ${this.action}: ${this.entity} }`;
+  parse(): string {
+    const formatter = formatters[this.type];
+
+    if (!formatter) {
+      throw new Error(`Unsupported config type: ${this.type}`);
+    }
+
+    return formatter(this.input);
   }
 }
