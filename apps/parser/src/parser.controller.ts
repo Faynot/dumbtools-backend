@@ -16,15 +16,15 @@ export class ParserController {
       action: string;
       title?: string;
       entity?: string;
+      file: string;
     },
   ) {
     const parser = new ParseObject(data.type, {
-      keys: data.keys,
+      keys: data.keys || [],
       action: data.action,
       title: data.title,
       entity: data.entity,
     });
-
-    return { result: parser.parse() };
+    return { result: parser.parse(data.file) };
   }
 }

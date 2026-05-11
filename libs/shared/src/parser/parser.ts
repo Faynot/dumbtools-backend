@@ -32,14 +32,17 @@ export class ParseObject {
     public input: ParseInput,
   ) {}
 
-  parse(): string {
+  parse(file: string): string {
     const formatter = formatters[this.type];
 
     if (!formatter) {
       throw new Error(`Unsupported config type: ${this.type}`);
     }
 
-    return formatter(this.input);
+    const bind = formatter(this.input);
+    const config = insertAfter(file, 'binds {', `\n${bind}\n`);
+
+    return config;
   }
 }
 

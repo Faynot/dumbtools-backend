@@ -9,8 +9,12 @@ export class AppService {
     @Inject('DUMBENV_SERVICE') private readonly dumbenvClient: ClientProxy,
   ) {}
 
-  async parse(data: any) {
-    return firstValueFrom(this.parserClient.send({ cmd: 'parse' }, data));
+  async parse(data: any, file: string) {
+    const payload = {
+      ...data,
+      file: file,
+    };
+    return firstValueFrom(this.parserClient.send({ cmd: 'parse' }, payload));
   }
 
   async dumbenv(data: any) {
