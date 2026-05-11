@@ -11,7 +11,7 @@ type Formatter = (input: ParseInput) => string;
 
 const formatters: Record<ConfigType, Formatter> = {
   niri: ({ keys, action, title, entity }) => {
-    const keysList = keys.join('+');
+    const keysList = (keys ?? []).join('+');
     const entityPart = entity ? `: ${entity}` : '';
     const titlePart = title ? ` hotkey-overlay-title="${title}"` : '';
 
@@ -19,7 +19,7 @@ const formatters: Record<ConfigType, Formatter> = {
   },
 
   hyprland: ({ keys, action, entity }) => {
-    const keysList = keys.join(', ');
+    const keysList = (keys ?? []).join(', ');
     const actionParts = [action, entity].filter(Boolean).join(', ');
 
     return `bind = ${keysList}, ${actionParts}`;
@@ -42,3 +42,12 @@ export class ParseObject {
     return formatter(this.input);
   }
 }
+
+const insertAfter = (str, keyword, insert) => {
+  const index = str.indexOf(keyword);
+  return index === -1
+    ? str
+    : str.slice(0, index + keyword.length) +
+        insert +
+        str.slice(index + keyword.length);
+};

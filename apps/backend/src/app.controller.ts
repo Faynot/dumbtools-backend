@@ -1,5 +1,13 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 export class AppController {
@@ -11,7 +19,9 @@ export class AppController {
   }
 
   @Post('parse')
-  async parse(@Body() body: any) {
+  @UseInterceptors(FileInterceptor('file'))
+  async parse(@UploadedFile() file: Express.Multer.File, @Body() body: any) {
+    console.log(file);
     return this.appService.parse(body);
   }
 
