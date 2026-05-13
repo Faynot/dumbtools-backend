@@ -7,7 +7,7 @@ async function bootstrap() {
     ParserModule,
     {
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 3001 },
+      options: { host: '0.0.0.0', port: 3001 },
     },
   );
   await app.listen();

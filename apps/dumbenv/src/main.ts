@@ -7,7 +7,7 @@ async function bootstrap() {
     DumbenvModule,
     {
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 3002 },
+      options: { host: '0.0.0.0', port: 3002 },
     },
   );
   await app.listen();
