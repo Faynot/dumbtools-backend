@@ -7,6 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "start:all": "concurrently -n backend,parser,dumbenv -c blue,green,yellow \"nest start backend\" \"nest start parser\" \"nest start dumbenv\"",
+    "start:prod:backend": "node dist/apps/backend/main",
+    "start:prod:parser": "node dist/apps/parser/main",
+    "start:prod:dumbenv": "node dist/apps/dumbenv/main",
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
