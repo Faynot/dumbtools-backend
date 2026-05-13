@@ -20,9 +20,9 @@ export class AppController {
     return 'Gateway is running';
   }
 
-  @Post('parse')
+  @Post('genconf')
   @UseInterceptors(FileInterceptor('file'))
-  async parse(
+  async genconf(
     @UploadedFile() file: Express.Multer.File,
     @Body() body: any,
     @Res() res: Response,
@@ -33,7 +33,7 @@ export class AppController {
 
     const fileContent = file.buffer.toString();
 
-    const response = await this.appService.parse(body, fileContent);
+    const response = await this.appService.genconf(body, fileContent);
     const resultString = response.result;
 
     res.setHeader('Content-Type', 'text/plain');

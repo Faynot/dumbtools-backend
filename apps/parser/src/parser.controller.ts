@@ -7,8 +7,8 @@ import { ParseObject } from '@app/shared';
 export class ParserController {
   constructor(private readonly parserService: ParserService) {}
 
-  @MessagePattern({ cmd: 'parse' })
-  async parse(
+  @MessagePattern({ cmd: 'genconf' })
+  async genconf(
     @Payload()
     data: {
       type: 'niri' | 'hyprland';
@@ -25,6 +25,6 @@ export class ParserController {
       title: data.title,
       entity: data.entity,
     });
-    return { result: parser.parse(data.file) };
+    return { result: parser.genconf(data.file) };
   }
 }

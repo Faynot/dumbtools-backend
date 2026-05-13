@@ -32,7 +32,7 @@ export class ParseObject {
     public input: ParseInput,
   ) {}
 
-  parse(file: string): string {
+  genconf(file: string): string {
     const formatter = formatters[this.type];
 
     if (!formatter) {
@@ -40,16 +40,24 @@ export class ParseObject {
     }
 
     const bind = formatter(this.input);
-    const config = insertAfter(file, 'binds {', `\n${bind}\n`);
+
+    const config: string = insertAfter(
+      file,
+      `bind${this.type === 'niri' ? 's {' : ''}`,
+      `\n${bind}\n`,
+      this.type,
+    );
 
     return config;
   }
 }
 
-const insertAfter = (str, keyword, insert) => {
+const insertAfter = (str, keyword, insert, type) => {
   const index = str.indexOf(keyword);
-  return index === -1
-    ? str
+  if (index === -1) return str;
+
+  return type === 'hyprland'
+    ? str + insert
     : str.slice(0, index + keyword.length) +
         insert +
         str.slice(index + keyword.length);
