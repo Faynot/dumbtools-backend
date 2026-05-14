@@ -28,18 +28,37 @@ export class AppController {
     @Res() res: Response,
   ) {
     if (!file) {
-      return res.status(400).json({ error: 'config not be load' });
+      return res.status(400).json({ error: 'Config file not uploaded' });
     }
 
     const fileContent = file.buffer.toString();
 
-    const response = await this.appService.genconf(body, fileContent);
-    const resultString = response.result;
+    let keys = body.keys;
+    if (typeof keys === 'string') {
+      keys = keys.split(',').map((k) => k.trim());
+    }
 
-    res.setHeader('Content-Type', 'text/plain');
-    res.setHeader('Content-Disposition', 'attachment; filename="config.kdl"');
+    const payload = {
+      ...body,
+      keys: keys,
+    };
 
-    return res.send(resultString);
+    try {
+      const response = await this.appService.genconf(payload, fileContent);
+      const resultString = response.result;
+
+      const extension = body.type === 'niri' ? 'kdl' : 'conf';
+
+      res.setHeader('Content-Type', 'text/plain');
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename="config.${extension}"`,
+      );
+
+      return res.send(resultString);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
 
   @Post('dumbenv')

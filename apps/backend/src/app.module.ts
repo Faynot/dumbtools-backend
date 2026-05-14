@@ -10,16 +10,16 @@ import { AppService } from './app.service';
         name: 'PARSER_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: process.env.PARSER_HOST ?? 'localhost',
-          port: Number(process.env.PARSER_PORT) ?? 3001,
+          host: process.env.PARSER_HOST || 'localhost',
+          port: Number(process.env.PARSER_PORT) || 3001,
         },
       },
       {
         name: 'DUMBENV_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: process.env.DUMBENV_HOST ?? 'localhost',
-          port: Number(process.env.DUMBENV_PORT) ?? 3002,
+          host: process.env.DUMBENV_HOST || 'localhost',
+          port: Number(process.env.DUMBENV_PORT) || 3002,
         },
       },
     ]),
